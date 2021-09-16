@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DriverManagerDataSource dependent class cfgs -->
+	<bean id="drds"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${db.user}" />
+		<property name="password" value="${db.pwd}" />
+	</bean>
+
+	<!-- DAO class cfgs -->
+	<bean id="loanDao" class="com.property.dao.LoanDAOImp.class">
+		<constructor-arg ref="drds" />
+	</bean>
+	<!--Service class cfgs -->
+	<bean id="service" class="com.property.service.LoanServiceImp.class">
+		<constructor-arg ref="loanDao" />
+	</bean>
+
+	<!-- PropertyPlaceHolderConfigure -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<array>
+				<value>com/property/commons/DBDetails.properties</value>
+			</array>
+		</property>
+	</bean>
+
+</beans>
